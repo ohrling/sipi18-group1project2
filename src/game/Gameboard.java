@@ -97,4 +97,8 @@ public class Gameboard {
     public boolean isFinished() {
         return isFinished;
     }
+
+    public Point getCharacterPosition() {
+        return characterPosition;
+    }
 }

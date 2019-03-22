@@ -6,5 +6,6 @@ public enum TileType {
     CHARACTER,
     DOOR,
     TREASURE,
+    OPENTREASURE,
     MONSTER
 }
