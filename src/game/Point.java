@@ -28,7 +28,7 @@ public class Point {
         return x;
     }
 
-    // Setting the tileType
+    // Setters
     public void setTileType(TileType tileType) {
         if(this.tileType == TREASURE && tileType == CHARACTER) {
             nextTileType = OPENTREASURE;
@@ -43,5 +43,13 @@ public class Point {
         } else {
             this.tileType = tileType;
         }
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setX(int x) {
+        this.x = x;
     }
 }
