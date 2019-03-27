@@ -12,6 +12,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import game.Point;
+import game.Player;
+import game.Gameboard;
+import game.Direction;
+import game.TileType;
+
 import static org.junit.Assert.*;
 
 @RunWith(JUnitParamsRunner.class)
@@ -22,7 +28,7 @@ public class PlayerTest {
 	public void setup() {		
 		player = new Player(9,1);
 	}
-	
+
 	@Test
 	@Parameters({ "Tommy", "Emil", "Bob", "Marcus", "\n\t", "" })
 	public void testSettingPlayerName(String name) {
@@ -39,7 +45,7 @@ public class PlayerTest {
 	public void testSetAndGetTreasureCount(int treasureCount) {
 		//Arrange
 		PlayerScore.setTreasures(treasureCount);
-		
+
 		//Act
 		int actual = PlayerScore.getTreasures();
 				
@@ -91,7 +97,7 @@ public class PlayerTest {
 
 	@Test
 	public void testPlayerWalkingOntoMonsterResultsInGameOver() {
-		//Arrange		
+		//Arrange
 		Gameboard g = new Gameboard();
 
 		//Act

@@ -15,8 +15,8 @@ public class Gameboard {
 
     private Door door = new Door(9, 18);
 
-    private Levels levels;
-    private Player player;
+	private Levels levels;
+	private Player player;
 
     public Gameboard() {
         levels = new Levels(level);

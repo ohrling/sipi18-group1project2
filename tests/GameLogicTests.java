@@ -5,12 +5,13 @@ import static game.Direction.*;
 
 import static org.junit.Assert.*;
 
+import game.Point;
+import game.TileType;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import sun.plugin.net.proxy.PluginAutoProxyHandler;
 
 @RunWith(JUnitParamsRunner.class)
 public class GameLogicTests {
@@ -32,55 +33,50 @@ public class GameLogicTests {
         // Arrange
         Gameboard board = new Gameboard();
 
-        // Act
-        Point wallPoint = board.getPoint(0, 0);
-        Point floorPoint = board.getPoint(5, 15);
+		// Act
+		Point wallPoint = board.getPoint(0, 0);
+		Point floorPoint = board.getPoint(5, 15);
 
-        // Assert
-        assertEquals(WALL, wallPoint.getTileType());
-        assertEquals(FLOOR, floorPoint.getTileType());
-    }
+		// Assert
+		assertEquals(WALL, wallPoint.getTileType());
+		assertEquals(FLOOR, floorPoint.getTileType());
+	}
 
-    @Test
-    public void addDoorToGameBoard_PositionedRight_GetInt4ReturnedFromPoint() {
-        // Arrange
-        Gameboard board = new Gameboard();
+	@Test
+	public void addDoorToGameBoard_PositionedRight_GetInt4ReturnedFromPoint() {
+		// Arrange
+		Gameboard board = new Gameboard();
 
-        // Act
-        Point doorPoint = board.getPoint(9, 18);
+		// Act
+		Point doorPoint = board.getPoint(9, 18);
 
-        // Assert
-        assertEquals(DOOR, doorPoint.getTileType());
-    }
+		// Assert
+		assertEquals(DOOR, doorPoint.getTileType());
+	}
 
-    @Test
-    @Parameters({
-            "9,2,RIGHT,CHARACTER",
-            "8,1,UP,CHARACTER",
-            "9,0,LEFT,WALL",
-            "10,1,DOWN,CHARACTER"
-    })
-    public void moveCharacterOnePositionAccordingToDirection_GetIntWithResultMovement(int y, int x, Direction direction, TileType expected) {
-        // Arrange
-        Gameboard board = new Gameboard();
-        board.moveCharacter(direction);
+	@Test
+	@Parameters({ "9,2,RIGHT,CHARACTER", "8,1,UP,CHARACTER", "9,0,LEFT,WALL", "10,1,DOWN,CHARACTER" })
+	public void moveCharacterOnePositionAccordingToDirection_GetIntWithResultMovement(int y, int x, Direction direction,
+			TileType expected) {
+		// Arrange
+		Gameboard board = new Gameboard();
+		board.moveCharacter(direction);
 
-        // Act
-        Point actual = board.getPoint(y, x);
+		// Act
+		Point actual = board.getPoint(y, x);
 
-        // Assert
-        assertEquals(expected, actual.getTileType());
-    }
+		// Assert
+		assertEquals(expected, actual.getTileType());
+	}
 
-    @Parameters({
-            "0, 1, true", // Wall
-            "1, 10, false", // Character
-            "5, 5, false" // Floor
-    })
-    @Test
-    public void gettingAPointToCheckWhatsThere_GetBooleanFalseIfThereIsAWall(int y, int x, boolean expected) {
-        // Arrange
-        Gameboard board = new Gameboard();
+	@Parameters({ "0, 1, true", // Wall
+			"1, 10, false", // Character
+			"5, 5, false" // Floor
+	})
+	@Test
+	public void gettingAPointToCheckWhatsThere_GetBooleanFalseIfThereIsAWall(int y, int x, boolean expected) {
+		// Arrange
+		Gameboard board = new Gameboard();
 
         // Act
         boolean actual = false;//board.onCollision(x, y);
@@ -90,56 +86,52 @@ public class GameLogicTests {
         //assertEquals(expected, actual);
     }
 
-    @Parameters({
-            "UP, true",
-            "RIGHT, true",
-            "DOWN, true",
-            "LEFT, false"
-    })
-    @Test
-    public void moveCharacterIntoWall_GettingFalseIfThereWasACollideAndMovementWasNotPossible(Direction direction, boolean expected) {
-        // Arrange
-        Gameboard board = new Gameboard();
+	@Parameters({ "UP, true", "RIGHT, true", "DOWN, true", "LEFT, false" })
+	@Test
+	public void moveCharacterIntoWall_GettingFalseIfThereWasACollideAndMovementWasNotPossible(Direction direction,
+			boolean expected) {
+		// Arrange
+		Gameboard board = new Gameboard();
 
-        // Act
-        boolean actual = board.moveCharacter(direction);
+		// Act
+		boolean actual = board.moveCharacter(direction);
 
-        // Assert
-        assertEquals(expected, actual);
-    }
+		// Assert
+		assertEquals(expected, actual);
+	}
 
-    @Test
-    public void moveCharacterTwoSteps_ShouldReturnTrueSinceTheresIsntAWall() {
-        // Arrange
-        Gameboard board = new Gameboard();
+	@Test
+	public void moveCharacterTwoSteps_ShouldReturnTrueSinceTheresIsntAWall() {
+		// Arrange
+		Gameboard board = new Gameboard();
 
-        // Act
-        board.moveCharacter(RIGHT);
-        boolean actual = board.moveCharacter(RIGHT);
+		// Act
+		board.moveCharacter(RIGHT);
+		boolean actual = board.moveCharacter(RIGHT);
 
-        // Assert
-        assertTrue(actual);
-    }
+		// Assert
+		assertTrue(actual);
+	}
 
-    @Test
-    public void moveCharacterMultipleSteps_OnLevelONE_GettingFalseSinceItIsHittingAWall() {
-        // Arrange
-        Gameboard board = new Gameboard();
+	@Test
+	public void moveCharacterMultipleSteps_OnLevelONE_GettingFalseSinceItIsHittingAWall() {
+		// Arrange
+		Gameboard board = new Gameboard();
 
-        // Act
-        board.moveCharacter(RIGHT);
-        board.moveCharacter(RIGHT);
-        board.moveCharacter(RIGHT);
-        board.moveCharacter(RIGHT);
-        board.moveCharacter(RIGHT);
-        board.moveCharacter(UP);
-        board.moveCharacter(UP);
-        board.moveCharacter(UP);
-        boolean actual = board.moveCharacter(UP);
+		// Act
+		board.moveCharacter(RIGHT);
+		board.moveCharacter(RIGHT);
+		board.moveCharacter(RIGHT);
+		board.moveCharacter(RIGHT);
+		board.moveCharacter(RIGHT);
+		board.moveCharacter(UP);
+		board.moveCharacter(UP);
+		board.moveCharacter(UP);
+		boolean actual = board.moveCharacter(UP);
 
-        // Assert
-        assertFalse(actual);
-    }
+		// Assert
+		assertFalse(actual);
+	}
 
     @Test
     public void checkIfMonsterIsAddedToTheBoard_ReturnsThe2dArrayWhichIsLoopedThroughToFindClassOfMonster() {
@@ -190,7 +182,72 @@ public class GameLogicTests {
 
         boolean actual = PlayerScore.isAlive;
 
-        // Assert
-        assertFalse(actual);
-    }
+		// Assert
+		assertEquals(actual, PlayerScore.getTreasures());
+	}
+
+	@Test
+	public void testPlayerWalkingOntoDoorWithTreasures() {
+		// Arrange
+		Gameboard board = new Gameboard();
+
+		// Act
+		// Move player onto door
+		for (int i = 1; i < 18; i++) {
+			board.moveCharacter(Direction.RIGHT);
+		}
+
+		// Assert
+		assertTrue(PlayerScore.isFinished);
+	}
+
+	@Test
+	@Parameters(method = "parametersFortestPersistanceOfDoorWhenPlayerMovesOverIT")
+	public void testPersistanceOfDoorWhenPlayerMovesOverIT(Direction[] direction) {
+		// Arrange
+		Gameboard board = new Gameboard();
+		Point door = board.getPoint(board.getPlayer().getY(), board.getPlayer().getX()+1);
+
+		door.setTileType(DOOR);
+		//direction = (Direction[]) direction;
+		// Act
+		// Move onto the Door and past it
+		for (int i = 0; i < direction.length; i++) {
+			board.moveCharacter(direction[i]);
+		}
+
+		boolean isPointStillDoor = false;
+		if (door.getTileType() == DOOR)
+			isPointStillDoor = true;
+
+		// Assert
+		assertTrue(isPointStillDoor);
+
+	}
+
+	@SuppressWarnings({"unused"})
+	private Object[] parametersFortestPersistanceOfDoorWhenPlayerMovesOverIT() {
+		return new Object[] {
+		new Direction[] {RIGHT, RIGHT},
+		new Direction[] {UP,RIGHT,DOWN,DOWN},
+		new Direction[] {DOWN, RIGHT, UP, UP},
+		new Direction[] {DOWN, RIGHT, RIGHT, UP, LEFT, LEFT}
+		};
+	}
+
+	@Test
+	public void testPlayerWalkingOntoMonsterResultsInGameOver() {
+		// Arrange
+		Gameboard g = new Gameboard();
+
+		// Act
+		g.moveCharacter(Direction.RIGHT);
+		g.moveCharacter(Direction.RIGHT);
+		g.moveCharacter(Direction.DOWN);
+
+		// Assert
+		assertFalse(PlayerScore.isAlive);
+	}
+
+
 }
