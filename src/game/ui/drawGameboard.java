@@ -1,6 +1,7 @@
 package game.ui;
 
 import game.Gameboard;
+import game.Player;
 import game.PlayerScore;
 import game.TileType;
 import java.awt.Color;
@@ -25,16 +26,25 @@ public class drawGameboard extends JPanel {
         setUpImages();
         Timer timer = new Timer(DELAY, (final ActionEvent e) -> {
             if (!PlayerScore.isAlive) {
-                JOptionPane.showConfirmDialog(this, "LOL U DEDD!!!!!");
-                System.exit(0);
+                restartGameDialog("Game over! You died!");
             }
             if (PlayerScore.isFinished) {
-                JOptionPane.showConfirmDialog(this, "LOL U ZE WINNARR!!!!!!!");
-                System.exit(0);
+                restartGameDialog("Game over! You WON!");
             }
             repaint();
         });
         timer.start();
+    }
+
+    private void restartGameDialog(String str) {
+        drawGameOverScreen(getGraphics(), str);
+        int response = JOptionPane.showConfirmDialog(this, "Do you want to restart?", "GAME OVER!",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (response == JOptionPane.YES_OPTION) {
+            BOARD.resetGame();
+        } else {
+            System.exit(0);
+        }
     }
 
     private void setUpImages() {
@@ -75,11 +85,19 @@ public class drawGameboard extends JPanel {
     }
 
     private void drawHearts(Graphics2D g2) {
-        Image heart = Toolkit.getDefaultToolkit()
+        Image closedChest = Toolkit.getDefaultToolkit()
                 .getImage("src/res/graphics/chest_empty_open_anim_f0.png");
-        for (int i = 0; i < 10; i++) {
-            g2.drawImage(heart, i * 36, 1, TILESIZE, TILESIZE, this);
+        Image openChest = Toolkit.getDefaultToolkit()
+                .getImage("src/res/graphics/chest_empty_open_anim_f2.png");
+        int collectedTreasures = PlayerScore.getTreasures();
+        int treasuresInLevel = BOARD.getLevels().getTreasureCount(BOARD.getCurrentLevel());
+        for (int i = 0; i < collectedTreasures; i++) {
+            g2.drawImage(openChest, i * 36, 1, TILESIZE, TILESIZE, this);
         }
+        for (int i = collectedTreasures; i < treasuresInLevel; i++) {
+            g2.drawImage(closedChest, i * 36, 1, TILESIZE, TILESIZE, this);
+        }
+
     }
 
     private void drawTile(TileType type, Graphics2D g2, int x, int y) {
@@ -112,5 +130,13 @@ public class drawGameboard extends JPanel {
             default:
                 g2.drawImage(floor, y, x, this);
         }
+    }
+
+    private void drawGameOverScreen(Graphics g, String str) {
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(Color.BLACK);
+        g2.fillRect(0, 0, getWidth(), getHeight());
+        g2.setColor(Color.WHITE);
+        g2.drawString(str, (getWidth() / 2) - str.length(), getHeight() / 4);
     }
 }

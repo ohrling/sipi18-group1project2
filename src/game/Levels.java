@@ -5,6 +5,7 @@ import java.util.*;
 import static game.TileType.*;
 
 public class Levels {
+
     private Point[][] boardGrid = new Point[20][20];
     private List<Monster> monsters = new ArrayList<>();
 
@@ -25,17 +26,20 @@ public class Levels {
     // Number of monsters for the actual level is set
     // And the layout
     private void levelDesigner(int level) {
-        switch (level){
+        switch (level) {
             case 1:
                 setWalls(true, 0, 6, 6);
                 setWalls(true,3,15,14);
                 monsters.add(new Monster(3,10));
                 monsters.add(new Monster(10,3));
+                boardGrid[18][4] = new Treasure(18,4);
+                boardGrid[4][17] = new Treasure(4,17);
                 break;
             case 2:
                 monsters.add(new Monster(3, 10));
                 monsters.add(new Monster(9, 15));
                 monsters.add(new Monster(9, 4));
+                boardGrid[4][17] = new Treasure(4,17);
                 setWalls(true, 0, 6, 6);
                 setWalls(false, 17, 0, 7);
                 break;
@@ -46,6 +50,9 @@ public class Levels {
                 monsters.add(new Monster(15,3));
                 monsters.add(new Monster(10, 18));
                 monsters.add(new Monster(12, 17));
+                boardGrid[4][17] = new Treasure(4,17);
+                boardGrid[5][17] = new Treasure(5,17);
+                boardGrid[6][17] = new Treasure(1,17);
                 setWalls(true, 4,10, 10);
                 setWalls(false, 4,5, 15);
                 setWalls(true,2,5,10);
@@ -132,5 +139,24 @@ public class Levels {
 
     public List<Monster> getMonsters() {
         return monsters;
+    }
+
+    /**
+     * Check hows how many treasures are collectable on a certain level.
+     *
+     * @param level Specifies which level method returns data for.
+     * @return Returns int with amount of treasures
+     */
+    public int getTreasureCount(int level) {
+        switch (level) {
+            case 1:
+                return 2;
+            case 2:
+                return 1;
+            case 3:
+                return 3;
+            default:
+                return 1;
+        }
     }
 }

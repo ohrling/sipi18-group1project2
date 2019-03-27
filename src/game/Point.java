@@ -2,9 +2,9 @@ package game;
 
 public abstract class Point {
 
-    protected int y; // On what y-axis the point is on
-    protected int x; // On what x-axis the point is on
-    private TileType tileType; // What kind of point it is
+    private int y;
+    private int x;
+    private TileType tileType;
 
     public Point(int y, int x, TileType tileType) {
         this.y = y;
@@ -12,9 +12,12 @@ public abstract class Point {
         this.tileType = tileType;
     }
 
-    // Getters
     public TileType getTileType() {
         return tileType;
+    }
+
+    public Point getPoint() {
+        return this;
     }
 
     public int getY() {

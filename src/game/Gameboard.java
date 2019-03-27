@@ -53,6 +53,24 @@ public class Gameboard {
             boardGrid[mP.getY()][mP.getX()] = mP;
         }
     }
+    private boolean isPlayerOnDoor = false;
+    private boolean isFinished = false;
+
+    public Gameboard() {
+        startNewGame();
+    }
+
+    private void startNewGame() {
+        levels = new Levels(level);
+        player = new Player(9, 1, CHARACTER);
+        boardGrid = levels.getBoard();
+        boardGrid[player.getY()][player.getX()].setTileType(CHARACTER);
+        boardGrid[doorPosition.getY()][doorPosition.getX()].setTileType(DOOR);
+    }
+
+    public void resetGame() {
+        startNewGame();
+    }
 
     // Returning the Point of requested position
     public static Point getPoint(int y, int x) {
@@ -71,5 +89,13 @@ public class Gameboard {
 
     public Point getPlayer() {
         return player;
+    }
+
+    public Levels getLevels() {
+        return levels;
+    }
+
+    public int getCurrentLevel() {
+        return level;
     }
 }

@@ -1,22 +1,19 @@
+
 /**
  * @author Marcus Laitala
  * @Date 2019-03-17 
- * @version 0.4
+ * @version 0.8
  */
 
 import game.*;
 import junitparams.JUnitParamsRunner;
-import junitparams.Parameters;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import game.Point;
 import game.Player;
-import game.Gameboard;
-import game.Direction;
-import game.TileType;
+import game.Point;
 
 import static org.junit.Assert.*;
 
@@ -25,86 +22,42 @@ public class PlayerTest {
 	Player player;
 
 	@Before
-	public void setup() {		
-		player = new Player(9,1);
+	public void setup() {
+		player = new Player(9, 1);
 	}
 
 	@Test
-	@Parameters({ "Tommy", "Emil", "Bob", "Marcus", "\n\t", "" })
-	public void testSettingPlayerName(String name) {
+	public void testPlayerPickupTreasureIncreasesTreasure() {
 		// Arrange
-		PlayerScore.setName(name);
+        PlayerScore.setTreasures(1);
+
 		// Act
-		String actual = PlayerScore.getName();
+		int actual = PlayerScore.getTreasures();
+
 		// Assert
-		assertEquals(actual, name);
+		assertEquals(actual, 1);
 	}
 
 	@Test
-	@Parameters({"10", "0", "-1"})
-	public void testSetAndGetTreasureCount(int treasureCount) {
-		//Arrange
-		PlayerScore.setTreasures(treasureCount);
-
+	public void testSetPlayerPosition(){
+		// Arrange
+		player = new Player(1, 1);
+		
 		//Act
-		int actual = PlayerScore.getTreasures();
-				
+		Point actual = (Point)player;
+		
 		//Assert
-		assertEquals(actual, treasureCount);		
+		assertTrue(actual.equals(player));
+
 	}
 	
 	@Test
-	@Parameters({"0, 1", "0, -1"})	
-	public void testPlayerWalkOntoTreasureAndCollectIt(int startTreasure, int nrOfFoundTreasures) {
+	public void testSetPlayerAlive() {
 		//Arrange
-		Gameboard g = new Gameboard();
-		PlayerScore.setTreasures(startTreasure);
-		Point po, treasure;
 		
 		//Act
-		//Move the player onto point 0,0
-		po = g.getPoint(0,0);
-		po.setTileType(TileType.CHARACTER);
+		PlayerScore.isAlive = false;
 		
-		//Create a treasure at 0,1
-		treasure = g.getPoint(0,1);
-		treasure.setTileType(TileType.TREASURE);
-		int actual = 0;
-		//Move player onto treasure
-		if(g.moveCharacter(Direction.DOWN) && g.getPoint(po.getX(), po.getY() + Direction.DOWN.getValue()).getTileType() == TileType.TREASURE) {
-			PlayerScore.setTreasures(nrOfFoundTreasures);
-			actual = PlayerScore.getTreasures();
-		}
-			
-		//Assert
-		assertEquals(actual, nrOfFoundTreasures);
-	}
-		
-	@Test
-	public void testPlayerWalkingOntoDoorWithTreasures() {
-		//Arrange		
-		Gameboard g = new Gameboard();
-
-		//Act
-		//Move player onto door
-		for(int i =1; i <18; i++) {
-			g.moveCharacter(Direction.RIGHT);
-		}
-
-		//Assert
-		assertTrue(PlayerScore.isFinished);
-	}
-
-	@Test
-	public void testPlayerWalkingOntoMonsterResultsInGameOver() {
-		//Arrange
-		Gameboard g = new Gameboard();
-
-		//Act
-		g.moveCharacter(Direction.RIGHT);
-		g.moveCharacter(Direction.RIGHT);
-		g.moveCharacter(Direction.DOWN);
-
 		//Assert
 		assertFalse(PlayerScore.isAlive);
 	}

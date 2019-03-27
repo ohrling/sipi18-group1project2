@@ -5,6 +5,8 @@ import static game.Direction.*;
 
 import static org.junit.Assert.*;
 
+import org.junit.Ignore;
+
 import game.Point;
 import game.TileType;
 import junitparams.JUnitParamsRunner;
@@ -248,6 +250,4 @@ public class GameLogicTests {
 		// Assert
 		assertFalse(PlayerScore.isAlive);
 	}
-
-
 }
