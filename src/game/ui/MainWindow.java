@@ -1,8 +1,8 @@
 package game.ui;
 
 import game.Direction;
-import game.Gameboard;
-import java.awt.Color;
+import game.GameBoard;
+
 import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -10,18 +10,18 @@ import javax.swing.SwingUtilities;
 
 public class MainWindow extends JFrame {
 
-    private Gameboard BOARD;
+    private GameBoard BOARD;
     
     public MainWindow() {
         initComponents();
     }
     
-    public Gameboard getBoard() {
+    public GameBoard getBoard() {
         return BOARD;
     }
     
     private void initComponents() {
-        BOARD = new Gameboard();
+        BOARD = new GameBoard();
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Dungeon Game");
         setMinimumSize(new java.awt.Dimension(640, 715));

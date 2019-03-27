@@ -11,7 +11,6 @@ import game.Point;
 import game.TileType;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -21,7 +20,7 @@ public class GameLogicTests {
     @Test
     public void testCreateGameBoard() {
         // Arrange
-        Gameboard board = new Gameboard();
+        GameBoard board = new GameBoard();
 
         // Act
         Point actual = board.getPoint(5, 15);
@@ -33,7 +32,7 @@ public class GameLogicTests {
     @Test
     public void SetTheBoardsOuterEdgesToWalls() {
         // Arrange
-        Gameboard board = new Gameboard();
+        GameBoard board = new GameBoard();
 
 		// Act
 		Point wallPoint = board.getPoint(0, 0);
@@ -47,7 +46,7 @@ public class GameLogicTests {
 	@Test
 	public void addDoorToGameBoard_PositionedRight_GetInt4ReturnedFromPoint() {
 		// Arrange
-		Gameboard board = new Gameboard();
+		GameBoard board = new GameBoard();
 
 		// Act
 		Point doorPoint = board.getPoint(9, 18);
@@ -61,7 +60,7 @@ public class GameLogicTests {
 	public void moveCharacterOnePositionAccordingToDirection_GetIntWithResultMovement(int y, int x, Direction direction,
 			TileType expected) {
 		// Arrange
-		Gameboard board = new Gameboard();
+		GameBoard board = new GameBoard();
 		board.moveCharacter(direction);
 
 		// Act
@@ -78,7 +77,7 @@ public class GameLogicTests {
 	@Test
 	public void gettingAPointToCheckWhatsThere_GetBooleanFalseIfThereIsAWall(int y, int x, boolean expected) {
 		// Arrange
-		Gameboard board = new Gameboard();
+		GameBoard board = new GameBoard();
 
         // Act
         boolean actual = false;//board.onCollision(x, y);
@@ -93,7 +92,7 @@ public class GameLogicTests {
 	public void moveCharacterIntoWall_GettingFalseIfThereWasACollideAndMovementWasNotPossible(Direction direction,
 			boolean expected) {
 		// Arrange
-		Gameboard board = new Gameboard();
+		GameBoard board = new GameBoard();
 
 		// Act
 		boolean actual = board.moveCharacter(direction);
@@ -105,7 +104,7 @@ public class GameLogicTests {
 	@Test
 	public void moveCharacterTwoSteps_ShouldReturnTrueSinceTheresIsntAWall() {
 		// Arrange
-		Gameboard board = new Gameboard();
+		GameBoard board = new GameBoard();
 
 		// Act
 		board.moveCharacter(RIGHT);
@@ -118,7 +117,7 @@ public class GameLogicTests {
 	@Test
 	public void moveCharacterMultipleSteps_OnLevelONE_GettingFalseSinceItIsHittingAWall() {
 		// Arrange
-		Gameboard board = new Gameboard();
+		GameBoard board = new GameBoard();
 
 		// Act
 		board.moveCharacter(RIGHT);
@@ -191,7 +190,7 @@ public class GameLogicTests {
 	@Test
 	public void testPlayerWalkingOntoDoorWithTreasures() {
 		// Arrange
-		Gameboard board = new Gameboard();
+		GameBoard board = new GameBoard();
 
 		// Act
 		// Move player onto door
@@ -207,7 +206,7 @@ public class GameLogicTests {
 	@Parameters(method = "parametersFortestPersistanceOfDoorWhenPlayerMovesOverIT")
 	public void testPersistanceOfDoorWhenPlayerMovesOverIT(Direction[] direction) {
 		// Arrange
-		Gameboard board = new Gameboard();
+		GameBoard board = new GameBoard();
 		Point door = board.getPoint(board.getPlayer().getY(), board.getPlayer().getX()+1);
 
 		door.setTileType(DOOR);
@@ -240,7 +239,7 @@ public class GameLogicTests {
 	@Test
 	public void testPlayerWalkingOntoMonsterResultsInGameOver() {
 		// Arrange
-		Gameboard g = new Gameboard();
+		GameBoard g = new GameBoard();
 
 		// Act
 		g.moveCharacter(Direction.RIGHT);

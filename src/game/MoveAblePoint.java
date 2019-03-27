@@ -4,6 +4,7 @@ import static game.Direction.*;
 
 public abstract class MoveAblePoint extends Point {
     private Point nextPoint;
+    private Point prevPoint;
     public MoveAblePoint(int y, int x, TileType tileType) {
         super(y, x, tileType);
     }
@@ -11,7 +12,7 @@ public abstract class MoveAblePoint extends Point {
     public Point move(Direction direction) {
         int move = direction.getValue();
         if(direction == UP || direction == DOWN) {
-            nextPoint = Gameboard.getPoint(y + move,x);
+            nextPoint = GameBoard.getPoint(y + move,x);
             if(onCollision(nextPoint)) {
                 return this;
             }else if(onTreasure(nextPoint)) {
@@ -24,9 +25,13 @@ public abstract class MoveAblePoint extends Point {
             }else if(onMonster(nextPoint)) {
                 this.y = y + move;
                 return nextPoint;
+            } else if(onDoor(nextPoint)){
+                prevPoint = GameBoard.getPoint(y + move,x);
+                this.y = y + move;
+                return nextPoint;
             }
         } else {
-            nextPoint = Gameboard.getPoint(y, x + move);
+            nextPoint = GameBoard.getPoint(y, x + move);
             if(onCollision(nextPoint)) {
                 return this;
             }else if(onTreasure(nextPoint)) {
@@ -38,7 +43,7 @@ public abstract class MoveAblePoint extends Point {
                 return nextPoint;
             }else if(onDoor(nextPoint)){
                 this.x = x + move;
-                return this;
+                return nextPoint;
             }
         }
         return this;
@@ -48,5 +53,5 @@ public abstract class MoveAblePoint extends Point {
     protected abstract boolean onTreasure(Point next);
     protected abstract boolean onMonster(Point next);
     protected abstract boolean onDoor(Point next);
-
+    protected abstract boolean onFloor(Point prev);
 }

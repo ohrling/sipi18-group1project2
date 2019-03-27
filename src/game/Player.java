@@ -18,7 +18,7 @@ public class Player extends MoveAblePoint {
 	@Override
 	protected boolean onTreasure(Point next) {
 		if(next.getClass() == Treasure.class){
-			PlayerScore.setTreasures(1);
+			PlayerScore.addTreasures(1);
 			return true;
 		}
 		return false;
@@ -42,7 +42,11 @@ public class Player extends MoveAblePoint {
 			}
 			return true;
 		}
-		// Otherwise movement is a okay
-		return false;
+		return true;
 	}
+
+    @Override
+    protected boolean onFloor(Point next) {
+        return false;
+    }
 }

@@ -2,9 +2,9 @@ package game;
 
 public abstract class Point {
 
-    private int y;
-    private int x;
-    private TileType tileType;
+    protected int y;
+    protected int x;
+    protected TileType tileType;
 
     public Point(int y, int x, TileType tileType) {
         this.y = y;

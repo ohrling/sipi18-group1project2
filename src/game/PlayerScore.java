@@ -18,7 +18,7 @@ public class PlayerScore {
         return treasures;
     }
 
-    public static void setTreasures(int treasures) {
-        PlayerScore.treasures = treasures;
+    public static void addTreasures(int treasures) {
+        PlayerScore.treasures += treasures;
     }
 }

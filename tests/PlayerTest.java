@@ -29,7 +29,7 @@ public class PlayerTest {
 	@Test
 	public void testPlayerPickupTreasureIncreasesTreasure() {
 		// Arrange
-        PlayerScore.setTreasures(1);
+        PlayerScore.addTreasures(1);
 
 		// Act
 		int actual = PlayerScore.getTreasures();

@@ -1,7 +1,6 @@
 package game.ui;
 
-import game.Gameboard;
-import game.Player;
+import game.GameBoard;
 import game.PlayerScore;
 import game.TileType;
 import java.awt.Color;
@@ -16,12 +15,12 @@ import javax.swing.Timer;
 
 public class drawGameboard extends JPanel {
 
-    private final Gameboard BOARD;
+    private final GameBoard BOARD;
     private final int TILESIZE = 32;
     private final int DELAY = 50;
     private Image floorArray[], wall, character, ladder, treasure, monster, floor;
 
-    public drawGameboard(Gameboard board) {
+    public drawGameboard(GameBoard board) {
         this.BOARD = board;
         setUpImages();
         Timer timer = new Timer(DELAY, (final ActionEvent e) -> {

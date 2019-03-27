@@ -7,27 +7,19 @@ import java.util.TimerTask;
 
 import static game.TileType.*;
 
-public class Gameboard {
+public class GameBoard {
 
     private static Point[][] boardGrid;
     private List<MoveAblePoint> movingObjects = new ArrayList<>();
-    private int level = 3;
+    private int level = 1;
 
     private Door door = new Door(9, 18);
 
 	private Levels levels;
 	private Player player;
 
-    public Gameboard() {
-        levels = new Levels(level);
-        player = new Player(9, 1);
-        PlayerScore.setName("Kalle");
-        boardGrid = levels.getBoard();
-        movingObjects.addAll(levels.getMonsters());
-        movingObjects.add(player);
-        boardGrid[door.getY()][door.getX()] = door;
-        boardGrid[9][14].setTileType(TREASURE);
-        updateBoard();
+    public GameBoard() {
+        startNewGame();
     }
 
     private void updateBoard() {
@@ -53,19 +45,15 @@ public class Gameboard {
             boardGrid[mP.getY()][mP.getX()] = mP;
         }
     }
-    private boolean isPlayerOnDoor = false;
-    private boolean isFinished = false;
-
-    public Gameboard() {
-        startNewGame();
-    }
 
     private void startNewGame() {
         levels = new Levels(level);
-        player = new Player(9, 1, CHARACTER);
+        player = new Player(9, 1);
         boardGrid = levels.getBoard();
-        boardGrid[player.getY()][player.getX()].setTileType(CHARACTER);
-        boardGrid[doorPosition.getY()][doorPosition.getX()].setTileType(DOOR);
+        movingObjects.addAll(levels.getMonsters());
+        movingObjects.add(player);
+        boardGrid[door.getY()][door.getX()] = door;
+        updateBoard();
     }
 
     public void resetGame() {
