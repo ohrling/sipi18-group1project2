@@ -1,103 +1,75 @@
 package game;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import static game.TileType.*;
 
 public class Gameboard {
 
-    private final Point[][] boardGrid;
-    private int level = 1;
+    private static Point[][] boardGrid;
+    private List<MoveAblePoint> movingObjects = new ArrayList<>();
+    private int level = 3;
 
-    private Point characterPosition = new Point(9, 1, CHARACTER);
-    private Point doorPosition = new Point(9, 18, DOOR);
+    private Door door = new Door(9, 18);
 
     private Levels levels;
     private Player player;
 
-    private boolean isAlive = true;
-    private boolean isFinished = false;
-
     public Gameboard() {
         levels = new Levels(level);
-        player = new Player();
-        player.setName("Kalle");
+        player = new Player(9, 1);
+        PlayerScore.setName("Kalle");
         boardGrid = levels.getBoard();
-        boardGrid[characterPosition.getY()][characterPosition.getX()].setTileType(CHARACTER);
-        boardGrid[doorPosition.getY()][doorPosition.getX()].setTileType(DOOR);
+        movingObjects.addAll(levels.getMonsters());
+        movingObjects.add(player);
+        boardGrid[door.getY()][door.getX()] = door;
         boardGrid[9][14].setTileType(TREASURE);
+        updateBoard();
     }
 
-    public boolean getPlayerAlive() {
-        return isAlive;
+    private void updateBoard() {
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                placeMovingObjects();
+            }
+        };
+
+        Timer timer = new Timer("boardTimer");
+
+        timer.scheduleAtFixedRate(task, 0, 10);
     }
 
-    public void setPlayerAlive(boolean playerAlive) {
-        this.isAlive = playerAlive;
+    private void placeMovingObjects() {
+        for (Monster m :
+                levels.getMonsters()) {
+            movingObjects.set(movingObjects.indexOf(m), m);
+        }
+        for (MoveAblePoint mP :
+                movingObjects) {
+            boardGrid[mP.getY()][mP.getX()] = mP;
+        }
     }
 
     // Returning the Point of requested position
-    public Point getPoint(int y, int x) {
+    public static Point getPoint(int y, int x) {
         return boardGrid[y][x];
     }
 
     // Moving character in desired direction
     public boolean moveCharacter(Direction direction) {
-        int y = characterPosition.getY();
-        int x = characterPosition.getX();
-        int move = direction.getValue();
-        if (direction.equals(Direction.RIGHT) || direction.equals(Direction.LEFT)) {
-            if (!onCollision(boardGrid[y][x + move])) {
-                boardGrid[y][x + move].setTileType(CHARACTER);
-                boardGrid[y][x].setTileType(FLOOR);
-
-                characterPosition = boardGrid[y][x + move];
-                return true;
-            }
-        } else if (direction.equals(Direction.UP) || direction.equals(Direction.DOWN)) {
-            if (!onCollision(boardGrid[y + move][x])) {
-                boardGrid[y + move][x].setTileType(CHARACTER);
-                boardGrid[y][x].setTileType(FLOOR);
-
-                characterPosition = boardGrid[y + move][x];
-                return true;
-            }
-        }
-
-        // There was a wall in the way
-        return false;
+        boardGrid[player.getY()][player.getX()] = player.move(direction);
+        return true;
     }
 
-    // Checks if the movement results in a collision
-    public boolean onCollision(Point p) {
-        if (p.getTileType() == WALL) {
-            return true; // Can't move, wall in the way
-        } else if (p.getTileType() == MONSTER) {
-            // Returns true to show that character really stepped onto monster
-            // Game is although over
-            isAlive = false;
-            return false;
-        } else if (p.getTileType() == TREASURE) {
-            player.setTreasure(1);
-            return false;
-        } else if (p.getTileType() == DOOR) {
-            if (player.getTreasure() > 0) {
-                isFinished = true;
-            }
-            return false;
-        } else {
-            // Otherwise movement is a okay
-            return false;
-        }
+    public static Point[][] getBoardGrid() {
+        return boardGrid;
     }
 
-    public boolean getIsAlive() {
-        return isAlive;
-    }
-
-    public boolean isFinished() {
-        return isFinished;
-    }
-
-    public Point getCharacterPosition() {
-        return characterPosition;
+    public Point getPlayer() {
+        return player;
     }
 }

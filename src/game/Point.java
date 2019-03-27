@@ -2,12 +2,11 @@ package game;
 
 import static game.TileType.*;
 
-public class Point {
+public abstract class Point {
 
-    private int y; // On what y-axis the point is on
-    private int x; // On what x-axis the point is on
+    protected int y; // On what y-axis the point is on
+    protected int x; // On what x-axis the point is on
     private TileType tileType; // What kind of point it is
-    private TileType nextTileType;
 
     public Point(int y, int x, TileType tileType) {
         this.y = y;
@@ -30,7 +29,8 @@ public class Point {
 
     // Setters
     public void setTileType(TileType tileType) {
-        if(this.tileType == TREASURE && tileType == CHARACTER) {
+        this.tileType = tileType;
+        /*if(this.tileType == TREASURE && tileType == CHARACTER) {
             nextTileType = OPENTREASURE;
             this.tileType = tileType;
         } if(tileType == FLOOR && nextTileType == OPENTREASURE) {
@@ -42,14 +42,6 @@ public class Point {
             this.tileType = nextTileType;
         } else {
             this.tileType = tileType;
-        }
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public void setX(int x) {
-        this.x = x;
+        }*/
     }
 }

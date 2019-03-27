@@ -1,6 +1,7 @@
 package game.ui;
 
 import game.Gameboard;
+import game.PlayerScore;
 import game.TileType;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -23,11 +24,11 @@ public class drawGameboard extends JPanel {
         this.BOARD = board;
         setUpImages();
         Timer timer = new Timer(DELAY, (final ActionEvent e) -> {
-            if (!BOARD.getIsAlive()) {
+            if (!PlayerScore.isAlive) {
                 JOptionPane.showConfirmDialog(this, "LOL U DEDD!!!!!");
                 System.exit(0);
             }
-            if (BOARD.isFinished()) {
+            if (PlayerScore.isFinished) {
                 JOptionPane.showConfirmDialog(this, "LOL U ZE WINNARR!!!!!!!");
                 System.exit(0);
             }

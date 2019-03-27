@@ -4,18 +4,13 @@
  * @version 0.4
  */
 
+import game.*;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import game.Point;
-import game.Player;
-import game.Gameboard;
-import game.Direction;
-import game.TileType;
 
 import static org.junit.Assert.*;
 
@@ -25,16 +20,16 @@ public class PlayerTest {
 
 	@Before
 	public void setup() {		
-		player = new Player();
+		player = new Player(9,1);
 	}
 	
 	@Test
 	@Parameters({ "Tommy", "Emil", "Bob", "Marcus", "\n\t", "" })
 	public void testSettingPlayerName(String name) {
 		// Arrange
-		player.setName(name);
+		PlayerScore.setName(name);
 		// Act
-		String actual = player.getName();
+		String actual = PlayerScore.getName();
 		// Assert
 		assertEquals(actual, name);
 	}
@@ -43,10 +38,10 @@ public class PlayerTest {
 	@Parameters({"10", "0", "-1"})
 	public void testSetAndGetTreasureCount(int treasureCount) {
 		//Arrange
-		player.setTreasure(treasureCount);
+		PlayerScore.setTreasures(treasureCount);
 		
 		//Act
-		int actual = player.getTreasure();
+		int actual = PlayerScore.getTreasures();
 				
 		//Assert
 		assertEquals(actual, treasureCount);		
@@ -57,7 +52,7 @@ public class PlayerTest {
 	public void testPlayerWalkOntoTreasureAndCollectIt(int startTreasure, int nrOfFoundTreasures) {
 		//Arrange
 		Gameboard g = new Gameboard();
-		player.setTreasure(startTreasure);
+		PlayerScore.setTreasures(startTreasure);
 		Point po, treasure;
 		
 		//Act
@@ -71,8 +66,8 @@ public class PlayerTest {
 		int actual = 0;
 		//Move player onto treasure
 		if(g.moveCharacter(Direction.DOWN) && g.getPoint(po.getX(), po.getY() + Direction.DOWN.getValue()).getTileType() == TileType.TREASURE) {
-			player.setTreasure(nrOfFoundTreasures);
-			actual = player.getTreasure();
+			PlayerScore.setTreasures(nrOfFoundTreasures);
+			actual = PlayerScore.getTreasures();
 		}
 			
 		//Assert
@@ -91,7 +86,7 @@ public class PlayerTest {
 		}
 
 		//Assert
-		assertTrue(g.isFinished());
+		assertTrue(PlayerScore.isFinished);
 	}
 
 	@Test
@@ -105,6 +100,6 @@ public class PlayerTest {
 		g.moveCharacter(Direction.DOWN);
 
 		//Assert
-		assertFalse(g.getPlayerAlive());
+		assertFalse(PlayerScore.isAlive);
 	}
 }

@@ -27,24 +27,25 @@ public class Levels {
     private void levelDesigner(int level) {
         switch (level){
             case 1:
-                monsters.add(new Monster(3,10, MONSTER));
-                monsters.add(new Monster(10,3,MONSTER));
                 setWalls(true, 0, 6, 6);
+                setWalls(true,3,15,14);
+                monsters.add(new Monster(3,10));
+                monsters.add(new Monster(10,3));
                 break;
             case 2:
-                monsters.add(new Monster(3, 10, MONSTER));
-                monsters.add(new Monster(9, 15, MONSTER));
-                monsters.add(new Monster(9, 4, MONSTER));
+                monsters.add(new Monster(3, 10));
+                monsters.add(new Monster(9, 15));
+                monsters.add(new Monster(9, 4));
                 setWalls(true, 0, 6, 6);
                 setWalls(false, 17, 0, 7);
                 break;
             case 3:
-                monsters.add(new Monster(3, 10, MONSTER));
-                monsters.add(new Monster(9, 15, MONSTER));
-                monsters.add(new Monster(9, 4, MONSTER));
-                monsters.add(new Monster(15,3, MONSTER));
-                monsters.add(new Monster(10, 18, MONSTER));
-                monsters.add(new Monster(12, 17, MONSTER));
+                monsters.add(new Monster(3, 10));
+                monsters.add(new Monster(9, 15));
+                monsters.add(new Monster(9, 4));
+                monsters.add(new Monster(15,3));
+                monsters.add(new Monster(10, 18));
+                monsters.add(new Monster(12, 17));
                 setWalls(true, 4,10, 10);
                 setWalls(false, 4,5, 15);
                 setWalls(true,2,5,10);
@@ -63,13 +64,21 @@ public class Levels {
             for (Monster m :
                     monsters) {
                 while(true) {
-                    int y = rnd.nextInt(17) + 1;
-                    int x = rnd.nextInt(17) + 1;
+                    int y = rnd.nextInt(3);
+                    int x = rnd.nextInt(3);
+
                     if (boardGrid[y][x].getTileType() == FLOOR) {
-                        boardGrid[m.getY()][m.getX()] = new Point(m.getY(), m.getX(), FLOOR);
-                        boardGrid[y][x] = new Monster(y, x, MONSTER);
-                        m.setY(y);
-                        m.setX(x);
+                        boardGrid[m.getY()][m.getX()] = new Floor(m.getY(), m.getX());
+                        if(y == 2) {
+                            boardGrid[m.getY()][m.getX()] = m.move(Direction.DOWN);
+                        } else if(y == 1) {
+                            boardGrid[m.getY()][m.getX()] = m.move(Direction.UP);
+                        }
+                        if(x == 2) {
+                            boardGrid[m.getY()][m.getX()] = m.move(Direction.RIGHT);
+                        } else if (x == 1) {
+                            boardGrid[m.getY()][m.getX()] = m.move(Direction.LEFT);
+                        }
                         break;
                     }
                 }
@@ -100,11 +109,11 @@ public class Levels {
     private void setWalls(boolean isYAxis, int startPositionY, int startPositionX, int wallLength) {
         if(isYAxis) {
             for (int y = startPositionY; y < wallLength; y++) {
-                boardGrid[y][startPositionX].setTileType(WALL);
+                boardGrid[y][startPositionX] = new Wall(y,startPositionX);
             }
         } else {
             for (int x = startPositionX; x < wallLength; x++) {
-                boardGrid[startPositionY][x].setTileType(WALL);
+                boardGrid[startPositionY][x] = new Wall(startPositionY,x);
             }
         }
     }
@@ -112,12 +121,16 @@ public class Levels {
     // Generating the basic board
     private void createTheBasicBoard(int y, int x) {
         if (y == 0 || x == 0 || y == 19 || x == 19)
-            boardGrid[y][x] = new Point(y, x, WALL);
+            boardGrid[y][x] = new Wall(y, x);
         else
-            boardGrid[y][x] = new Point(y, x, FLOOR);
+            boardGrid[y][x] = new Floor(y, x);
     }
 
     public Point[][] getBoard() {
         return boardGrid;
+    }
+
+    public List<Monster> getMonsters() {
+        return monsters;
     }
 }

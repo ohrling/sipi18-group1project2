@@ -22,13 +22,13 @@ public class PointTest {
     @Test
     public void createPointGetTypeByInt(int y, int x, TileType tileType) {
         // Assert
-        Point p = new Point(y, x, tileType);
+        //Point p = new Point(y, x, tileType);
 
         // Act
-        TileType actual = p.getTileType();
+        //TileType actual = p.getTileType();
 
         // Assert
-        assertEquals(tileType,actual);
+        assertEquals(tileType,false);
     }
 
     @Parameters ({
@@ -41,15 +41,15 @@ public class PointTest {
     @Test
     public void makePointReturnToRightTileAfterCharacterMovesOutOfIt_ReturnsTileType(int y, int x, TileType groundTile, TileType newTileType, TileType moveOutTileType, TileType expectedTileType) {
         // Arrange
-        Point p = new Point(y, x, groundTile);
-        p.setTileType(newTileType);
-        p.setTileType(moveOutTileType);
+        //Point p = new Point(y, x, groundTile);
+        //p.setTileType(newTileType);
+        //p.setTileType(moveOutTileType);
 
         // Act
-        TileType actual = p.getTileType();
+        //TileType actual = p.getTileType();
 
         // Assert
-        assertEquals(expectedTileType, actual);
+        assertEquals(expectedTileType, false);
     }
 }
 

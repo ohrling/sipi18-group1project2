@@ -20,9 +20,9 @@ public class GuiTests {
     @Test
     public void testMoveCharacter() {
         Gameboard board = new Gameboard();
-        Point charPos = board.getCharacterPosition();
+        Point charPos = board.getPlayer();
         board.moveCharacter(Direction.RIGHT);
-        Point newCharPos = board.getCharacterPosition();
+        Point newCharPos = board.getPlayer();
         assertNotEquals(charPos, newCharPos);
     }
 
@@ -32,11 +32,11 @@ public class GuiTests {
             SwingUtilities.invokeAndWait(() -> {
                 MainWindow ui = new MainWindow();
                 Gameboard board = ui.getBoard();
-                Point charPos = board.getCharacterPosition();
+                Point charPos = board.getPlayer();
                 ui.requestFocus();
                 KeyEvent rArrow = new KeyEvent(ui.getComponent(0), 0, System.currentTimeMillis(), 0, KeyEvent.VK_RIGHT, KeyEvent.CHAR_UNDEFINED); 
                 ui.getComponent(0).getComponentAt(0, 0).dispatchEvent(rArrow);
-                Point newCharPos = board.getCharacterPosition();
+                Point newCharPos = board.getPlayer();
                 assertNotSame(charPos, newCharPos);
             });
         } catch (InvocationTargetException | InterruptedException ex) {
