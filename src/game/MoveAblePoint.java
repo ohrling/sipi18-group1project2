@@ -4,7 +4,6 @@ import static game.Direction.*;
 
 public abstract class MoveAblePoint extends Point {
     private Point nextPoint;
-    private Point prevPoint;
     public MoveAblePoint(int y, int x, TileType tileType) {
         super(y, x, tileType);
     }
@@ -26,7 +25,6 @@ public abstract class MoveAblePoint extends Point {
                 this.y = y + move;
                 return nextPoint;
             } else if(onDoor(nextPoint)){
-                prevPoint = GameBoard.getPoint(y + move,x);
                 this.y = y + move;
                 return nextPoint;
             }
@@ -53,5 +51,4 @@ public abstract class MoveAblePoint extends Point {
     protected abstract boolean onTreasure(Point next);
     protected abstract boolean onMonster(Point next);
     protected abstract boolean onDoor(Point next);
-    protected abstract boolean onFloor(Point prev);
 }
